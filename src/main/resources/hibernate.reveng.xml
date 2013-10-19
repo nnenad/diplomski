@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="diplomski" match-name="fizicko_lice"/>
+  <table-filter match-catalog="diplomski" match-name="kontakt_osobe"/>
+  <table-filter match-catalog="diplomski" match-name="poslovni_partner"/>
+  <table-filter match-catalog="diplomski" match-name="pravno_lice"/>
+  <table-filter match-catalog="diplomski" match-name="proizvod"/>
+  <table-filter match-catalog="diplomski" match-name="proizvod_usluga"/>
+  <table-filter match-catalog="diplomski" match-name="racun"/>
+  <table-filter match-catalog="diplomski" match-name="stavka_racuna"/>
+  <table-filter match-catalog="diplomski" match-name="tip_proizvoda"/>
+  <table-filter match-catalog="diplomski" match-name="usluga"/>
+  <table-filter match-catalog="diplomski" match-name="zaposleni"/>
+</hibernate-reverse-engineering>

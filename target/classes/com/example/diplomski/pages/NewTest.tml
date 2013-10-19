@@ -1,0 +1,19 @@
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+  <head>
+    <title>Another Page</title>
+  </head>
+  <body>
+    <h1>Another Page</h1>
+    
+    <p>      <t:PageLink t:page="Index">Back to the Start page</t:PageLink>     </p>  
+    	<p>Submit a message:</p>     
+    		 <t:form t:id="userInputForm">      
+    			<t:textfield t:value="message"/>       
+     			<input type="submit" value="Submit"/>       
+     			 <t:datefield t:value="enterDate" t:id="date"/>
+    		</t:form>
+    		
+    	</body>
+    	
+    </html>
+
