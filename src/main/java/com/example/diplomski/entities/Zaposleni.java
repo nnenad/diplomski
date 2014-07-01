@@ -3,9 +3,17 @@ package com.example.diplomski.entities;
 // default package
 // Generated Oct 9, 2012 10:16:24 PM by Hibernate Tools 3.4.0.CR1
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -23,6 +31,40 @@ public class Zaposleni implements java.io.Serializable {
 	private Integer idZaposlenog;
 	private String ime;
 	private String prezime;
+	private String sifra;
+	private String korisnickoIme;
+	@NonVisual
+	private Integer tip;
+	private Set<Racun> racuns = new HashSet<Racun>(0);
+	
+	
+	private Racun current;
+	
+	@Transient
+	public Racun getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(Racun current) {
+		this.current = current;
+	}
+
+	public void startCratingRacun(PoslovniPartner pp){
+		current = new Racun();
+		current.setPoslovniPartner(pp);
+		current.setZaposleni(this);
+		current.setReservationDates(1, 1);
+	}
+	
+	public void cancelRacun(){
+		current = null;
+	}
+	
+	public void confirmRacun(){
+		current = null;
+	}
+	
+	
 
 	public Zaposleni() {
 	}
@@ -37,6 +79,8 @@ public class Zaposleni implements java.io.Serializable {
 	public void setIdZaposlenog(Integer idZaposlenog) {
 		this.idZaposlenog = idZaposlenog;
 	}
+
+	
 
 	@Column(name = "ime", length = 64)
 	public String getIme() {
@@ -55,5 +99,38 @@ public class Zaposleni implements java.io.Serializable {
 	public void setPrezime(String prezime) {
 		this.prezime = prezime;
 	}
+	
+	@Column(name = "sifra", length = 64)
+	public String getSifra() {
+		return sifra;
+	}
 
+	public void setSifra(String sifra) {
+		this.sifra = sifra;
+	}
+	@Column(name = "korisnickoime", length = 64)
+	public String getKorisnickoIme() {
+		return korisnickoIme;
+	}
+
+	public void setKorisnickoIme(String korisnickoIme) {
+		this.korisnickoIme = korisnickoIme;
+	}
+	@Column(name = "tip", nullable = false)
+	public Integer getTip() {
+		return tip;
+	}
+
+	public void setTip(Integer tip) {
+		this.tip = tip;
+	}
+	
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="zaposleni")
+    public Set<Racun> getRacuns() {
+        return this.racuns;
+    }
+    
+    public void setRacuns(Set<Racun> racuns) {
+        this.racuns = racuns;
+    }
 }

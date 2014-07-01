@@ -1,0 +1,24 @@
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
+
+	<head>
+		<title>Celebrity Collector: All Celebrities</title>
+	</head>
+	<body>
+		<h1>All Celebrities in Collection</h1>
+		<table width="100%">
+			<tr t:type="loop" t:source="allCelebrities" t:value="celebrity">
+				<td>
+					<a href="#" t:type="ActionLink" t:context="celebrity.id" t:id="detailsLink">${celebrity.lastName}</a>
+				</td>
+				<td>${celebrity.firstName}</td>
+				<td>
+					<t:output t:format="dateFormat" t:value="celebrity.dateOfBirth" />
+				</td>
+				<td>${celebrity.occupation}</td>
+			</tr>
+		</table>
+		<br />
+		<a href="#" t:type="PageLink" t:page="Index">
+			Back to the Start Page</a>
+	</body>
+</html>

@@ -9,9 +9,18 @@
   <property name="hibernate.connection.username">root</property>
   <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
   <mapping package="com.example.diplomski.entities"/>
-  <mapping class="com.example.diplomski.entities.Zaposleni"/>
+  
   <mapping class="com.example.diplomski.entities.FizickoLice"/>
+  <mapping class="com.example.diplomski.entities.KontaktOsobe"/>
   <mapping class="com.example.diplomski.entities.PoslovniPartner"/>
+  <mapping class="com.example.diplomski.entities.PravnoLice"/>
+  <mapping class="com.example.diplomski.entities.Proizvod"/>
+  <mapping class="com.example.diplomski.entities.ProizvodUsluga"/>
+  <mapping class="com.example.diplomski.entities.Racun"/>
+  <mapping class="com.example.diplomski.entities.StavkaRacuna"/>
+  <mapping class="com.example.diplomski.entities.TipProizvoda"/>
+  <mapping class="com.example.diplomski.entities.Usluga"/>
+  <mapping class="com.example.diplomski.entities.Zaposleni"/>
   
  </session-factory>
 </hibernate-configuration>

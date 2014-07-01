@@ -1,0 +1,13 @@
+<html t:type="layout" title="Prikaz racuna"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:j="tapestry-library:jquery"
+      xmlns:p="tapestry:parameter">
+
+	${racun.brojRacuna}
+	<br/>
+	 <a t:type="actionlink" t:id="potvrdiRacun" t:mixins="jquery/Confirm">Izdaj racun</a>
+   
+     <t:actionLink t:id="otkaziRacun">
+    	Otkazi racun
+    </t:actionLink>
+</html>

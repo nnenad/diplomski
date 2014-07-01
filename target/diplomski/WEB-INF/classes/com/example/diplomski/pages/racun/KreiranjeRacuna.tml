@@ -1,0 +1,139 @@
+<html t:type="layout" title="Kreiranje racuna"
+  xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+  xmlns:p="tapestry:parameter">
+  
+  
+<!--   <t:if t:test="isForPravnoLice"> -->
+<!--   	<div class="hotel-details" t:type="beandisplay" t:object="racun.poslovniPartner"  t:ext:include="adresa, naziv"> -->
+<!-- 	</div> -->
+<!-- 	 <p:else> -->
+<!--     	<div class="hotel-details" t:type="beandisplay" t:object="racun.poslovniPartner"  t:include="adresa, ime"> -->
+<!-- 	</div> -->
+<!--   	</p:else> -->
+<!--   </t:if> -->
+  
+		<form class="full-form" t:type="form" t:id="racunForm" t:validate="racun" >
+			<t:errors />
+			<table>
+				<tr>
+					<th>
+						<label t:type="label" t:for="createDate">Datum kreiranja</label>
+					</th>
+					<td>
+						<input t:type="datefield" t:id="createDate" t:value="racun.datumKreiranja"/>
+					</td>	
+				</tr>
+				<tr>
+					<th>
+						<label t:type="label" t:for="outgoingDate">Datum dospeca</label>
+					</th>
+					<td>
+						<input t:type="datefield" t:id="outgoingDate" t:value="racun.datumIzdavanja"/>
+					</td>	
+				</tr>
+				<tr>
+					<th>
+						<label t:type="label" t:for="racunNumber">Broj racuna</label>
+					</th>
+					<td>
+						<input t:type="textfield" style="disabled:true" t:id="racunNumber" t:value="racun.brojRacuna" >
+						</input>
+					</td>	
+				</tr>
+								
+			</table>
+			
+			
+			<div class="form-submit">
+				<input type="submit" value="Izdaj" /> or <a href="#" t:type="eventlink" t:event="cancelBooking">Cancel</a>
+			</div>
+		</form>
+		<br/>
+		<h2>Artikli</h2>
+		<hr/>
+		<br/>
+		
+		 <t:form>  
+                
+             <INPUT t:type="submit" t:id="prikaziProizvode" type="submit" value="prikazi proizvode" />  
+             <INPUT t:type="submit" t:id="prikaziUsluge" type="submit" value="prikazi usluge" />
+             	<t:delegate to="prop:blockToRender"/>  
+              
+        
+		
+		 <t:if t:test="showPGrid">
+		<t:zone t:id="prikazProizvodaZone">  
+		<br/>
+		
+		<span>Proizvodi</span>  
+		    <t:grid t:source="sviProizvodi" rowsPerPage="5" t:inPlace="true" row="proizvodRow" t:add="action">
+		  	<p:actionCell><t:actionLink t:id="kupiProizvod" context="proizvodRow.idProizvodUsluga" zone="zoneStavke">kupi</t:actionLink></p:actionCell>
+		  		<p:empty>
+					<p class="empty-result">Prazno je</p>
+				</p:empty>
+		  	</t:grid>  
+		
+		</t:zone> 
+		</t:if>
+		  
+		  <t:if t:test="showUGrid">
+		<t:zone t:id="prikazUslugaZone"> 
+		<br/>
+	
+		<span>Usluge</span>   
+		    <t:grid t:source="sveUsluge" rowsPerPage="5" t:inPlace="true" row="uslugaRow" t:add="action">
+		  	<p:actionCell><t:actionLink t:id="kupiUslugu" context="uslugaRow.idProizvodUsluga" zone="zoneStavke">kupi</t:actionLink></p:actionCell>
+		  		<p:empty>
+					<p class="empty-result">Prazno je</p>
+				</p:empty>
+		  	</t:grid> 
+		
+		</t:zone> 
+		</t:if>
+		 </t:form>
+		<t:zone t:id="artiklConfirm"  visible="false">
+			<div style="border: 1px solid red">
+				<h3>${confirmMessage}</h3>
+				<t:actionLink t:id="potvrdiZaArtikl"  zone="zoneStavke">OK</t:actionLink>
+			</div>
+		</t:zone>
+		
+		<br/>
+		<h2>Kupljeni artikli</h2>
+		<hr/>
+		<br/>
+		
+		<t:zone t:id="zoneStavke" style="float:left; width: 850px;">  
+        
+	       <table>
+	       <tr>
+		    	<th>Naziv</th>
+		    	<th>Kolicina</th>
+		    	<th>Cena</th>
+		    	<th></th>
+		  	</tr>
+	       
+	       	<tr t:type="loop" t:source="zaposleni.current.stavkaRacunas" t:value="tekucaStavka">
+	           
+					<td >
+						${tekucaStavka.proizvodUsluga.naziv}
+					</td>
+					<td >
+						${tekucaStavka.kolicina}
+					</td>
+					<td>
+						${tekucaStavka.cena}
+					</td>
+					<td >
+						<t:actionLink t:id="ukloniStavku" context="tekucaStavka.idStavkeRacuna" >ukloni</t:actionLink>
+					</td>
+			</tr>
+				<tr>
+			    	<th colspan="3">Ukupno</th>
+			    	
+			    	<th>${zaposleni.current.ukupnaCena}</th>
+		  	</tr>
+	        </table>
+  
+    	</t:zone>  
+</html>

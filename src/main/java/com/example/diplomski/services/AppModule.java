@@ -6,11 +6,15 @@ import org.apache.tapestry5.*;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
+import org.apache.tapestry5.ioc.annotations.Contribute;
 import org.apache.tapestry5.ioc.annotations.Local;
+import org.apache.tapestry5.ioc.services.ApplicationDefaults;
+import org.apache.tapestry5.ioc.services.SymbolProvider;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestFilter;
 import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
+import org.got5.tapestry5.jquery.JQuerySymbolConstants;
 import org.slf4j.Logger;
 
 /**
@@ -41,6 +45,9 @@ public class AppModule
         configuration.override(SymbolConstants.APPLICATION_VERSION, "1.0-SNAPSHOT");
     }
 
+ 
+    @Contribute(SymbolProvider.class)
+   	@ApplicationDefaults
     public static void contributeApplicationDefaults(
             MappedConfiguration<String, Object> configuration)
     {
@@ -50,6 +57,20 @@ public class AppModule
         // you can extend this list of locales (it's a comma separated series of locale names;
         // the first locale name is the default when there's no reasonable match).
         configuration.add(SymbolConstants.SUPPORTED_LOCALES, "en");
+
+   configuration.add(SymbolConstants.PRODUCTION_MODE, false);
+        
+        configuration.add(SymbolConstants.COMBINE_SCRIPTS, false);
+
+    	configuration.add(SymbolConstants.COMPRESS_WHITESPACE, false);
+
+    	configuration.add(SymbolConstants.GZIP_COMPRESSION_ENABLED, false);
+
+    	configuration.add(JQuerySymbolConstants.SUPPRESS_PROTOTYPE, true);
+    	
+
+    	configuration.add("demo-src-dir", "");
+    	
     }
 
 

@@ -1,8 +1,8 @@
 <html title="Celebrity colector: Registration"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
 <body>
-	<h1>Registration</h1>
-		<p> Registration form will be created here. </p>
+	<h1>Pogresna sifra ili korisnicko ime</h1>
+		<p> Probaj ponovo</p>
 		<a href="#" t:type="PageLink" t:page="Index">
 			Back to the Start Page</a>
 </body>

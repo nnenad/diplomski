@@ -1,19 +1,16 @@
-<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
-	<head>
-		<title>
-			Celebrity collector
-		</title>
-	</head>
-	<body>
-		<h1>Celebrity Collector</h1>
-		<p>Log in here:</p>
+<html t:type="layout" title="Index page"
+  xmlns:p="tapestry:parameter"
+  xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
+  	
+		
+		<p>Log in here</p>
 
 		<t:form t:id="loginForm">
 			<table>
 				<tr>
 					<td>
 						<t:label t:for="userName">
-							Label for the first text box
+							Korisnicko ime
 						</t:label>
 						:
 					</td>
@@ -25,7 +22,7 @@
 				<tr>
 					<td>
 						<t:label t:for="password">
-							The second label
+							Sifra
 						</t:label>
 						:
 					</td>
@@ -36,17 +33,9 @@
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<input type="submit" value="Log In" />
+						<input type="submit"  t:type="submit" t:mixins="jquery/button" value="Log In" />
 					</td>
 				</tr>
 			</table>
 		</t:form>
-		<p>
-			<a href="#" t:type="PageLink" t:page="Registration">
-				Or register</a>
-		</p>
-
-	</body>
-
-
 </html>

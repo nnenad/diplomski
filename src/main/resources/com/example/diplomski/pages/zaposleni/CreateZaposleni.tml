@@ -1,6 +1,8 @@
 <html t:type="layout" title="Create New Zaposleni"
-  xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
+  xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+  xmlns:p="tapestry:parameter">
 
-    <t:beaneditform object="zaposleni"/>
-
+    <t:beaneditform object="zaposleni" exclude="tip">
+	
+   </t:beaneditform>
 </html>

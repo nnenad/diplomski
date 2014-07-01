@@ -11,6 +11,7 @@ import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestFilter;
 import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
+import org.got5.tapestry5.jquery.JQuerySymbolConstants;
 import org.slf4j.Logger;
 
 /**
@@ -25,12 +26,16 @@ public class DevelopmentModule
         // The factory default is true but during the early stages of an application
         // overriding to false is a good idea. In addition, this is often overridden
         // on the command line as -Dtapestry.production-mode=false
-        configuration.add(SymbolConstants.PRODUCTION_MODE, false);
+       
 
         // The application version number is incorprated into URLs for some
         // assets. Web browsers will cache assets because of the far future expires
         // header. If existing assets are changed, the version number should also
         // change, to force the browser to download new versions.
         configuration.add(SymbolConstants.APPLICATION_VERSION, "1.0-SNAPSHOT-DEV");
+        
+     
+
+    	//configuration.add(JQuerySymbolConstants.JQUERY_UI_DEFAULT_THEME, "context:css/south-street/jquery-ui-1.10.3.css");
     }
 }

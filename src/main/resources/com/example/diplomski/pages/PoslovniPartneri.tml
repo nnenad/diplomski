@@ -1,0 +1,19 @@
+<html t:type="layout" title="Pocetna strana"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:p="tapestry:parameter">
+
+    <t:form>
+           <t:radiogroup t:value="type" t:id="aovo">
+				<input type="radio" t:type="radio" t:value="literal:PravnoLice" t:id="selectLeft"/> 
+				<input type="radio" t:type="radio" t:value="literal:FizickoLice"/> 
+				
+				
+			</t:radiogroup>
+    		<br></br>
+    
+    		<input type="text" t:id="userName" t:type="TextField"  t:value="userName" />
+    		
+    		<br></br>
+    		<input type="submit" value="Submit"/>
+    </t:form>
+</html>

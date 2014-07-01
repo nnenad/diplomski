@@ -1,7 +1,11 @@
-<html t:type="layout" title="About diplomski"
+<html t:type="layout" title="Pocetna strana"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
       xmlns:p="tapestry:parameter">
 
-    <p>About diplomski application ...</p>
+    <p>Uspesno ste ulogovani ...</p>
+    
+    <p>Korisnik: </p>
+    
+    <h1>${myUser.ime}</h1>
 
 </html>
