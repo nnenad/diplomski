@@ -25,7 +25,7 @@ import javax.persistence.Table;
     ,catalog="diplomski"
 )
 @Inheritance(strategy=InheritanceType.JOINED)
-public class PoslovniPartner  implements java.io.Serializable {
+public class PoslovniPartner  implements java.io.Serializable, OpstiDomenskiObjekat {
 
      private Integer idPoslovnogPartnera;
      private String adresa;
@@ -89,6 +89,15 @@ public class PoslovniPartner  implements java.io.Serializable {
     public void setRacuns(Set<Racun> racuns) {
         this.racuns = racuns;
     }
+
+	public String entityName() {
+		return "PoslovniPartner";
+	}
+
+	public String idColumName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 

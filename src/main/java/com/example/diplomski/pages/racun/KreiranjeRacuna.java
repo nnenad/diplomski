@@ -29,6 +29,7 @@ import com.example.diplomski.entities.Usluga;
 import com.example.diplomski.entities.Zaposleni;
 import com.example.diplomski.pages.poslovnipartner.PregledPoslovnihPartnera;
 import com.example.diplomski.pages.zaposleni.ShowZaposleni;
+import com.example.diplomski.pomocne_operacije.GetAllEntities;
 
 public class KreiranjeRacuna {
 	
@@ -106,23 +107,27 @@ public class KreiranjeRacuna {
      
        
      // This is called when button1 is clicked.  
-     @OnEvent(component="prikaziProizvode", value="selected")  
-     void selectBlock1()  
+     @SuppressWarnings("unchecked")
+	 @OnEvent(component="prikaziProizvode", value="selected")  
+     void selectBlock1() throws Exception  
      {  
     	 showPGrid = true;
     	 showUGrid = false;
-    	 sviProizvodi = DbBroker.getInstance().getAllProizvods();
+    	 GetAllEntities getAllEntities = new GetAllEntities();
+    	 sviProizvodi = (List<Proizvod>) getAllEntities.izvrsiSO(new Proizvod());
     	 //return prikazProizvodaZone.getBody();
         // blockToRender = prikazProizvoda;  
      }  
        
      //This is called when button2 is clicked.  
-     @OnEvent(component="prikaziUsluge", value="selected")  
-     void selectBlock2()  
+     @SuppressWarnings("unchecked")
+	 @OnEvent(component="prikaziUsluge", value="selected")  
+     void selectBlock2() throws Exception  
      {  
     	 showPGrid = false;
     	 showUGrid = true;
-    	 sveUsluge = DbBroker.getInstance().getAllUslugas();
+    	 GetAllEntities getAllEntities = new GetAllEntities();
+    	 sveUsluge = (List<Usluga>) getAllEntities.izvrsiSO(new Usluga());
     	 //return prikazUslugaZone;
          //blockToRender = prikazUsluga;  
      }  
@@ -245,7 +250,7 @@ public class KreiranjeRacuna {
 			}
 	}
 	 
-	 Object onActionFromkupiProizvod(Integer idProizvoda){
+	 Object onActionFromkupiProizvod(Integer idProizvoda) throws Exception{
 		 	Proizvod proi = (Proizvod) DbBroker.getInstance().getProizvodUslugaById(idProizvoda);
 		 	if(proi != null){
 		 		

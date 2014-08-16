@@ -6,12 +6,14 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.example.diplomski.entities.FizickoLice;
+import com.example.diplomski.entities.OpstiDomenskiObjekat;
 import com.example.diplomski.entities.PoslovniPartner;
 import com.example.diplomski.entities.PravnoLice;
 import com.example.diplomski.entities.Proizvod;
@@ -24,25 +26,55 @@ import com.example.diplomski.entities.Zaposleni;
 public class DbBroker {
 	
 	private static DbBroker dbBroker;
-	private static Session session;
+	private Session session;
 	private static SessionFactory sf;
+	private Transaction transaction;
 	
 	
 	private DbBroker() {
 		 sf = new AnnotationConfiguration().configure().buildSessionFactory();
-         //SessionFactory sf = new Configuration().configure().buildSessionFactory();
-         session = sf.openSession();
 	}
 
 	public static DbBroker getInstance(){
 		if(dbBroker != null){
-			if(session.isOpen()){
-				 
-			}
+			
 			return dbBroker;
 		}else
 			return dbBroker = new DbBroker();
 	}
+	
+	public Session getSession(){
+		session = sf.openSession();
+		return session;
+	}
+	
+	public void closeSession(){
+		if(session.isOpen()){
+			session.close();
+		}
+	}
+	
+	public void beginTransaction(){
+		transaction = session.beginTransaction();
+	}
+	
+	public void rollbackTransaction(){
+		if(transaction!= null){
+			transaction.rollback();
+		}
+	}
+	
+	public Transaction getTransaction(){
+		if(session.isOpen())
+			return session.getTransaction();
+		return null;
+	}
+	
+	public void commitTransaction(){
+		session.getTransaction().commit();
+	}
+
+	
 	public Zaposleni getZaposleniById(Integer idZaposlenog){
 		String hql = "from zaposleni where zaposleniId = "+idZaposlenog;
 		Query query = session.createQuery(hql);
@@ -56,7 +88,7 @@ public class DbBroker {
 	}
 	public Zaposleni getZaposleniByUserNameAndPass(String username, String password){
 		
-        session.beginTransaction();
+       
         Criteria crit = session.createCriteria(Zaposleni.class).add(Restrictions.eq("korisnickoIme", username)).add(Restrictions.eq("sifra", password));
    
         List<Zaposleni> listaZaposlenih = crit.list();
@@ -76,6 +108,7 @@ public class DbBroker {
 		return crit.list();
 	}
 
+
 	public Integer countZaposleni(){
 		String hql = "select  count(*) as brojZaposlenih from zaposleni";
 		Query query = session.createQuery(hql);
@@ -89,19 +122,7 @@ public class DbBroker {
 		 
 		return crit.list();
 	}
-	
-	public List<PravnoLice> getAllPravnaLica(){
-		Criteria crit = session.createCriteria(PravnoLice.class);
-		 
-		return crit.list();
-	}
-	
-	public List<FizickoLice> getAllFizickoLice(){
-		Criteria crit = session.createCriteria(FizickoLice.class);
-		 
-		return crit.list();
-	}
-	
+
 	public List<PravnoLice> gettAllPravnoLiceByName(String searchPhrase){
 		Criteria crit = session.createCriteria(PravnoLice.class).add(Restrictions.ilike("naziv", "%"+searchPhrase+"%"));
 		 
@@ -127,9 +148,9 @@ public class DbBroker {
 	}
 	
 	public void saveEntity(Object obj){
-		session.beginTransaction();
+		
 		 session.persist(obj);
-	      session.getTransaction().commit();
+	      
 	      session.refresh(obj);
 	}
 
@@ -139,17 +160,13 @@ public class DbBroker {
 		return crit.list();
 	}
 	
-	public List<Proizvod> getAllProizvods(){
-		Criteria crit = session.createCriteria(Proizvod.class);
+	public List<Object> getAllEntities(OpstiDomenskiObjekat odo){
+		Criteria crit = session.createCriteria(odo.getClass());
 		 
 		return crit.list();
 	}
 	
-	public List<Usluga> getAllUslugas(){
-		Criteria crit = session.createCriteria(Usluga.class);
-		 
-		return crit.list();
-	}
+	
 	
 	public List<String> getAllMestaFilickoLice(){
 		Criteria crit = session.createCriteria(FizickoLice.class).setProjection(Projections.distinct(Projections.property("mesto")));
@@ -168,6 +185,16 @@ public class DbBroker {
 		}
 	}
 	
+	public OpstiDomenskiObjekat getEntityById(OpstiDomenskiObjekat odo, Integer id){
+		Criteria crit = session.createCriteria(odo.getClass()).add(Restrictions.eq("idProizvodUsluga", id));
+		if(crit.list().isEmpty()){
+			 
+			return null;
+		}else{
+			 
+			return (ProizvodUsluga) crit.list().get(0);
+		}
+	}
 	public List<TipProizvoda> getAllTipProizvoda(){
 		Criteria crit = session.createCriteria(TipProizvoda.class);
 		return  crit.list();
@@ -179,7 +206,7 @@ public class DbBroker {
 	}
 
 	public List<FizickoLice> gettAllFizickoLiceByNameAndMesto(String searchPhrase, String mesto) {
-		if(mesto.equals("sva")){
+		if(mesto.equals("sva") || mesto == null || mesto.equals("")){
 			return gettAllFizickoLiceByName(searchPhrase);
 		}else{
 			Criteria crit = session.createCriteria(FizickoLice.class).add(Restrictions.ilike("prezime", "%"+searchPhrase+"%"))

@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @Table(name="fizicko_lice"
     ,catalog="diplomski"
 )
-public class FizickoLice extends PoslovniPartner implements java.io.Serializable {
+public class FizickoLice extends PoslovniPartner implements java.io.Serializable, OpstiDomenskiObjekat {
 
      private Integer brLicneKarte;
      private String ime;
@@ -71,6 +71,12 @@ public class FizickoLice extends PoslovniPartner implements java.io.Serializable
     public void setTelefon(String telefon) {
         this.telefon = telefon;
     }
+
+	public String entityName() {
+		return "FizickoLice";
+	}
+	
+	
 }
 
 

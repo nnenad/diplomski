@@ -51,6 +51,12 @@ public class PravnoLice extends PoslovniPartner implements java.io.Serializable 
         this.naziv = naziv;
     }
 
+	@Override
+	public String entityName() {
+		return "PravnoLice";
+	}
+
+    
 }
 
 

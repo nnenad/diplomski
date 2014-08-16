@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Table(name="tip_proizvoda"
     ,catalog="diplomski"
 )
-public class TipProizvoda  implements java.io.Serializable {
+public class TipProizvoda  implements java.io.Serializable,OpstiDomenskiObjekat {
 
 
      private Integer idTipProizvoda;
@@ -63,6 +63,16 @@ public class TipProizvoda  implements java.io.Serializable {
 //    public void setProizvods(Set<Proizvod> proizvods) {
 //        this.proizvods = proizvods;
 //    }
+
+	public String entityName() {
+		// TODO Auto-generated method stub
+		return "TipProizvoda";
+	}
+
+	public String idColumName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 

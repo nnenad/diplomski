@@ -25,7 +25,7 @@ import org.apache.tapestry5.beaneditor.NonVisual;
  */
 @Entity
 @Table(name = "zaposleni", catalog = "diplomski")
-public class Zaposleni implements java.io.Serializable {
+public class Zaposleni implements java.io.Serializable, OpstiDomenskiObjekat {
 
 	@NonVisual
 	private Integer idZaposlenog;
@@ -133,4 +133,13 @@ public class Zaposleni implements java.io.Serializable {
     public void setRacuns(Set<Racun> racuns) {
         this.racuns = racuns;
     }
+
+	public String entityName() {
+		return "Zaposleni";
+	}
+
+	public String idColumName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

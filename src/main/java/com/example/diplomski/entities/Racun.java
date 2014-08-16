@@ -29,7 +29,7 @@ import javax.persistence.Transient;
 @Table(name="racun"
     ,catalog="diplomski"
 )
-public class Racun  implements java.io.Serializable {
+public class Racun  implements java.io.Serializable,OpstiDomenskiObjekat {
 
 
      private Integer idRacuna;
@@ -170,6 +170,17 @@ public class Racun  implements java.io.Serializable {
 			ukupnaCena += cenaJedneStavke;
 		}
 		return ukupnaCena;
+	}
+
+
+	public String entityName() {
+		return "Racun";
+	}
+
+
+	public String idColumName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

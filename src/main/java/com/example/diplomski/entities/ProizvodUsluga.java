@@ -26,7 +26,7 @@ import javax.persistence.Table;
 )
 
 @Inheritance(strategy=InheritanceType.JOINED)
-public class ProizvodUsluga  implements java.io.Serializable {
+public class ProizvodUsluga  implements java.io.Serializable, OpstiDomenskiObjekat {
 
 
      private Integer idProizvodUsluga;
@@ -80,6 +80,16 @@ public class ProizvodUsluga  implements java.io.Serializable {
     public void setStavkaRacunas(Set<StavkaRacuna> stavkaRacunas) {
         this.stavkaRacunas = stavkaRacunas;
     }
+
+	public String entityName() {
+		
+		return "ProizvodUsluga";
+	}
+
+	public String idColumName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 

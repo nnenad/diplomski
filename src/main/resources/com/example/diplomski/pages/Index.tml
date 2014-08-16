@@ -1,41 +1,46 @@
-<html t:type="layout" title="Index page"
+<html t:type="layout" title="Prijava na sistem"
   xmlns:p="tapestry:parameter"
   xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
   	
-		
-		<p>Log in here</p>
-
-		<t:form t:id="loginForm">
-			<table>
-				<tr>
-					<td>
-						<t:label t:for="userName">
-							Korisnicko ime
-						</t:label>
-						:
-					</td>
-					<td>
-						<input type="text" t:id="userName" t:type="TextField"
-							t:value="userName" />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<t:label t:for="password">
-							Sifra
-						</t:label>
-						:
-					</td>
-					<td>
-						<input type="text" t:id="password" t:type="PasswordField"
-							t:value="password" />
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" align="center">
-						<input type="submit"  t:type="submit" t:mixins="jquery/button" value="Log In" />
-					</td>
-				</tr>
-			</table>
-		</t:form>
+		<div style="width:1000px; margin: 0 auto">
+		<p>Unesite podatke za prijavu</p>
+			<div id="formWraper" style="width:700px ; float:left" >
+			<h3 style="visibility:${hiddenMessage}; color:red">Pogresno korisnicko ime i sifra. Probajte ponovo</h3>
+				<t:form t:id="loginForm">
+					<table>
+						<tr>
+							<td style="width:120px">
+								<t:label t:for="userName">
+									Korisnicko ime
+								</t:label>
+								:
+							</td>
+							<td style="width:600px">
+								<input type="text" style="width:300px" t:id="userName" t:type="TextField"
+									t:value="userName" t:validate="required"/>
+							</td>
+						</tr>
+						<tr>
+							<td style="width:120px">
+								<t:label t:for="password">
+									Sifra
+								</t:label>
+								:
+							</td>
+							<td style="width:600px">
+								<input type="text" style="width:300px" t:id="password" t:type="PasswordField"
+									t:value="password" t:validate="required, minlength=4"/>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center">
+								<input type="submit"  t:type="submit" t:mixins="jquery/button" value="Prijavi se" />
+							</td>
+						</tr>
+					</table>
+				</t:form>
+				
+			</div>
+			<img src="layout/images/korisnik.gif" alt="Korisnik" style=" margint-top:30px" ></img>
+		</div>
 </html>

@@ -8,6 +8,7 @@ import org.apache.tapestry5.annotations.*;
 import org.apache.tapestry5.ioc.annotations.*;
 import org.apache.tapestry5.ioc.services.ApplicationDefaults;
 import org.apache.tapestry5.corelib.components.*;
+import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.alerts.AlertManager;
 
@@ -15,7 +16,8 @@ import org.apache.tapestry5.alerts.AlertManager;
 import com.example.diplomski.celebrity.model.User;
 import com.example.diplomski.dbbroker.DbBroker;
 import com.example.diplomski.entities.Zaposleni;
-import com.example.diplomski.util.Security;
+import com.example.diplomski.so.AutentikacijaKorisnika;
+import com.google.common.collect.Sets.SetView;
 
 /**
  * Start page of application diplomski.
@@ -28,8 +30,25 @@ public class Index {
 	@SessionState
 	private Zaposleni user;
 	
+	@Persist(PersistenceConstants.FLASH)
+	private String hiddenMessage;
 	
 	
+	public String getHiddenMessage() {
+		if(hiddenMessage == null){
+			hiddenMessage = "hidden";
+		}
+		return hiddenMessage;
+	}
+
+	public void setHiddenMessage(String hiddenMessage) {
+		if(hiddenMessage == null){
+			this.hiddenMessage = "hidden";
+		}else{
+			this.hiddenMessage = hiddenMessage;
+		}
+	}
+
 	public Zaposleni getUser() {
 		return user;
 	}
@@ -61,15 +80,20 @@ public class Index {
 //		return about;
 //	}
 
-	Object onSubmitFromLoginForm() {
+	Object onSubmitFromLoginForm() throws Exception {
 		Class nextPage = null;
 		Zaposleni authenticatedUser = null;
-		authenticatedUser = Security.authenticate(userName, password);
+		AutentikacijaKorisnika ak = new AutentikacijaKorisnika();
+		Zaposleni zaposleniZaAutentikaciju = new Zaposleni();
+		zaposleniZaAutentikaciju.setKorisnickoIme(userName);
+		zaposleniZaAutentikaciju.setSifra(password);
+		authenticatedUser = (Zaposleni) ak.izvrsiSO(zaposleniZaAutentikaciju);
 		if (authenticatedUser != null) {
 			user = authenticatedUser;
 			nextPage = About.class;
 		} else {
-			nextPage = Registration.class;
+			setHiddenMessage("none");
+			return this;
 		}
 		return nextPage;
 	}

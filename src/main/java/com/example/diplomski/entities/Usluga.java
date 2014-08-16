@@ -38,6 +38,11 @@ public class Usluga extends ProizvodUsluga implements java.io.Serializable {
         this.opis = opis;
     }
 
+	@Override
+	public String entityName() {
+		return "Usluga";
+	}
+
 
 
 

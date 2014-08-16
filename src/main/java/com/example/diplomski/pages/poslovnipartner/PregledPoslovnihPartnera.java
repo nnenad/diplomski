@@ -16,12 +16,18 @@ import org.apache.tapestry5.annotations.SessionState;
 import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
-import com.example.diplomski.dbbroker.DbBroker;
 import com.example.diplomski.entities.FizickoLice;
 import com.example.diplomski.entities.PoslovniPartner;
 import com.example.diplomski.entities.PravnoLice;
 import com.example.diplomski.entities.Zaposleni;
 import com.example.diplomski.pages.racun.KreiranjeRacuna;
+import com.example.diplomski.pomocne_operacije.AutocompleteFilickaLicaPrezime;
+import com.example.diplomski.pomocne_operacije.AutocompleteFizickoLicePrezimeMesto;
+import com.example.diplomski.pomocne_operacije.AutocompletePravnaLicaNaziv;
+import com.example.diplomski.pomocne_operacije.GetAllZaposleniMesta;
+import com.example.diplomski.so.KreirajRacun;
+import com.example.diplomski.so.PretragaFizickihLica;
+import com.example.diplomski.so.PretragaPravnihLica;
 
 
 @Events(value="provideCompletions")
@@ -96,9 +102,13 @@ public class PregledPoslovnihPartnera {
 	void onPartnerPChanged(){
 		this.autocompleteList = pravnaLicaAutocomplete;
 	}
-	void onActivate(){
-		pravnaLicaAutocomplete = DbBroker.getInstance().getAutocompetePravnoLiceNaziv();
-		fizickaLicaAutocomplete = DbBroker.getInstance().getAutocompleteFizickoLicePrezime();
+	
+	@SuppressWarnings("unchecked")
+	void onActivate() throws Exception{
+		AutocompletePravnaLicaNaziv autoPl = new AutocompletePravnaLicaNaziv();
+		AutocompleteFilickaLicaPrezime autoFl= new AutocompleteFilickaLicaPrezime();
+		pravnaLicaAutocomplete = (List<String>) autoPl.izvrsiSO(null);
+		fizickaLicaAutocomplete = (List<String>) autoFl.izvrsiSO(null);
 	}
 	
 	public String getSearchPhrase() {
@@ -141,14 +151,19 @@ public class PregledPoslovnihPartnera {
 		this.ppValue = ppValue;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@OnEvent(value = "provideCompletions")
-    public List<String> autoComplete(String start)
+    public List<String> autoComplete(String start) throws Exception
     {
         List<String> strings = new ArrayList<String>();
         
         if(fizikoLicaVisible){
         	if(mesto != null && !mesto.equals("sva")){
-			 autocompleteList = DbBroker.getInstance().getAutocompleteFizickoLicePrezimeMesto(mesto);
+        		AutocompleteFizickoLicePrezimeMesto atocompletePrezimeMesto = new AutocompleteFizickoLicePrezimeMesto();
+        		FizickoLice fizickoLIcePretragaMesto = new FizickoLice();
+        		fizickoLIcePretragaMesto.setMesto(mesto);
+        		autocompleteList = (List<String>) atocompletePrezimeMesto.izvrsiSO(fizickoLIcePretragaMesto);
+			 
         		}else{
         			autocompleteList = fizickaLicaAutocomplete;
         		}
@@ -167,8 +182,10 @@ public class PregledPoslovnihPartnera {
         
     }
 	
-	public String[] getMesta(){
-		List<String> listaMesta = DbBroker.getInstance().getAllMestaFilickoLice();
+	public String[] getMesta() throws Exception{
+		GetAllZaposleniMesta zaposleniMesta = new GetAllZaposleniMesta();
+		@SuppressWarnings("unchecked")
+		List<String> listaMesta = (List<String>) zaposleniMesta.izvrsiSO(null);
 		String[] nizMesta = new String[listaMesta.size()+1];
 		for(int i=0; i < listaMesta.size(); i++){
 			nizMesta[i] = listaMesta.get(i);
@@ -177,16 +194,27 @@ public class PregledPoslovnihPartnera {
 		return nizMesta;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@OnEvent(value="submit", component="searchForm")
-	void onSearchSubmit(){
+	void onSearchSubmit() throws Exception{
 		
 		if(fizikoLicaVisible){
-			List<FizickoLice> fzList = DbBroker.getInstance().gettAllFizickoLiceByNameAndMesto(this.searchPhrase, this.mesto);
+			PretragaFizickihLica pretragaFL = new PretragaFizickihLica();
+			FizickoLice fizickoLiceZaPretragu = new FizickoLice();
+			
+			fizickoLiceZaPretragu.setPrezime(this.searchPhrase);
+			fizickoLiceZaPretragu.setMesto(this.mesto);
+			
+			List<FizickoLice> fzList = (List<FizickoLice>) pretragaFL.izvrsiSO(fizickoLiceZaPretragu);
 			this.fzList = fzList;
 			this.pPList = null;
 		}else{
-			List<PravnoLice> pPListBaza = DbBroker.getInstance().gettAllPravnoLiceByName(this.searchPhrase);
-			pPList = pPListBaza;
+			PravnoLice pravnoLiceZaPretragu = new PravnoLice();
+			pravnoLiceZaPretragu.setNaziv(this.searchPhrase);
+			PretragaPravnihLica pretragaPL = new PretragaPravnihLica();
+			
+			pPList = (List<PravnoLice>) pretragaPL.izvrsiSO(pravnoLiceZaPretragu);
+		
 			this.fzList = null;
 		}
 		
@@ -225,9 +253,11 @@ public class PregledPoslovnihPartnera {
 	}
 	
 	
-	Object onActionFromSellToFZ(){
+	Object onActionFromSellToFZ() throws Exception{
 		zaposleni.startCratingRacun(fzValue);
-		DbBroker.getInstance().saveEntity(zaposleni.getCurrent());
+		KreirajRacun kreirajRacun = new KreirajRacun();
+		kreirajRacun.izvrsiSO(zaposleni.getCurrent());
+		
 		kreiranjeRacuna.setForPravnoLice(false); 
 		
 		
@@ -235,9 +265,11 @@ public class PregledPoslovnihPartnera {
 	}
 	
 	
-	Object onActionFromsellToPP(){
+	Object onActionFromsellToPP() throws Exception{
 		zaposleni.startCratingRacun(ppValue);
-		DbBroker.getInstance().saveEntity(zaposleni.getCurrent());
+		KreirajRacun kreirajRacun = new KreirajRacun();
+		kreirajRacun.izvrsiSO(zaposleni.getCurrent());
+		
 		kreiranjeRacuna.setForPravnoLice(true); 
 		
 		return kreiranjeRacuna;

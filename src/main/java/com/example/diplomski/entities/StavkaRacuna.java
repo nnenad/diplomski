@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Table(name="stavka_racuna"
     ,catalog="diplomski"
 )
-public class StavkaRacuna  implements java.io.Serializable {
+public class StavkaRacuna  implements java.io.Serializable, OpstiDomenskiObjekat {
 
 
      private Integer idStavkeRacuna;
@@ -86,6 +86,17 @@ public class StavkaRacuna  implements java.io.Serializable {
     public Double getCena(){
     	return proizvodUsluga.getCena() * kolicina;
     }
+
+
+	public String entityName() {
+		return "Racun";
+	}
+
+
+	public String idColumName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 
 
