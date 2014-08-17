@@ -22,6 +22,7 @@ import com.example.diplomski.dbbroker.DbBroker;
 import com.example.diplomski.entities.FizickoLice;
 import com.example.diplomski.entities.PravnoLice;
 import com.example.diplomski.entities.Proizvod;
+import com.example.diplomski.entities.ProizvodUsluga;
 import com.example.diplomski.entities.Racun;
 import com.example.diplomski.entities.StavkaRacuna;
 import com.example.diplomski.entities.TipProizvoda;
@@ -30,11 +31,14 @@ import com.example.diplomski.entities.Zaposleni;
 import com.example.diplomski.pages.poslovnipartner.PregledPoslovnihPartnera;
 import com.example.diplomski.pages.zaposleni.ShowZaposleni;
 import com.example.diplomski.pomocne_operacije.GetAllEntities;
+import com.example.diplomski.pomocne_operacije.SelectProizvodUsluga;
+import com.example.diplomski.so.PromeniStanjeProizvodaUsluge;
 
 public class KreiranjeRacuna {
 	
 	@Persist
 	private PravnoLice pravnoLice;
+	
 	@Persist
 	private FizickoLice fizickoLice;
 	
@@ -59,7 +63,7 @@ public class KreiranjeRacuna {
 	private Zaposleni zaposleni;
 
 	@Property
-	@Persist
+	@Persist(PersistenceConstants.FLASH)
 	private List<Proizvod> sviProizvodi;
 	
 	@Property
@@ -67,8 +71,9 @@ public class KreiranjeRacuna {
 	
 	@Property
 	private Usluga uslugaRow;
+	
 	@Property
-	@Persist
+	@Persist(PersistenceConstants.FLASH)
 	private List<Usluga> sveUsluge;
 	
 	@Persist(PersistenceConstants.FLASH)  
@@ -99,8 +104,11 @@ public class KreiranjeRacuna {
 	
 	@Inject
 	private AjaxResponseRenderer ajaxResponseRenderer;
+	
 	 @Property
+	 @Persist(PersistenceConstants.FLASH)
 	 StavkaRacuna tekucaStavka;
+	 
 	 public Block getBlockToRender(){  
          return blockToRender;  
      }  
@@ -218,10 +226,28 @@ public class KreiranjeRacuna {
 	        }
 	    }
 	 
-	 @OnEvent(value = "cancelRacun")
+	  
 	    @Log
-	    public Object cancelBooking()
+	    Object onActionFromcancelRacun() throws Exception
 	    {
+	    	for(StavkaRacuna stavka : zaposleni.getCurrent().getStavkaRacunas()){
+	    		 if(stavka.getProizvodUsluga() instanceof Proizvod){
+	    			 
+	    			 Proizvod prSel = (Proizvod) stavka.getProizvodUsluga();
+	    			 SelectProizvodUsluga proizvodUslugaSO = new SelectProizvodUsluga();
+	    			 
+	    			 Proizvod proizvodSelektuj = (Proizvod) proizvodUslugaSO.izvrsiSO(prSel);
+	    		 
+	    			
+	    			 PromeniStanjeProizvodaUsluge promeniStanjeProizvoda = new PromeniStanjeProizvodaUsluge();
+	
+	    			 prSel.setKolicina(proizvodSelektuj.getKolicina() + stavka.getKolicina()+1);
+	    			 
+	    			 promeniStanjeProizvoda.izvrsiSO(prSel);
+	    			 
+	    		 }
+	    	}
+	    	
 	        zaposleni.setCurrent(null);
 
 
@@ -235,8 +261,11 @@ public class KreiranjeRacuna {
 	 }
 
 	 
-	 Object onActionFromKupiUslugu(Integer idUsluge){
-			Usluga usl = (Usluga) DbBroker.getInstance().getProizvodUslugaById(idUsluge);
+	 Object onActionFromKupiUslugu(Integer idUsluge) throws Exception{
+		 SelectProizvodUsluga selectProizvodUslugaSO = new SelectProizvodUsluga();
+		 Usluga pronadjiUslugu = new Usluga();
+		 pronadjiUslugu.setIdProizvodUsluga(idUsluge);
+			Usluga usl = (Usluga) selectProizvodUslugaSO.izvrsiSO(pronadjiUslugu);
 			if(usl!= null){
 				StavkaRacuna sr = new StavkaRacuna();
 				sr.setRacun(zaposleni.getCurrent());
@@ -251,7 +280,10 @@ public class KreiranjeRacuna {
 	}
 	 
 	 Object onActionFromkupiProizvod(Integer idProizvoda) throws Exception{
-		 	Proizvod proi = (Proizvod) DbBroker.getInstance().getProizvodUslugaById(idProizvoda);
+		    SelectProizvodUsluga selectProizvodUslugaSO = new SelectProizvodUsluga();
+		    Proizvod pronadjiProizvod = new Proizvod();
+		    pronadjiProizvod.setIdProizvodUsluga(idProizvoda);
+		 	Proizvod proi = (Proizvod) selectProizvodUslugaSO.izvrsiSO(pronadjiProizvod);
 		 	if(proi != null){
 		 		
 		 		if(proi.getKolicina() == 0){
@@ -264,7 +296,9 @@ public class KreiranjeRacuna {
 					sr.setProizvodUsluga(proi);
 					zaposleni.getCurrent().addStavka(sr);
 					
-					DbBroker.getInstance().smaniKolicinuProizvoda(proi);
+					PromeniStanjeProizvodaUsluge promeniStanjeProizvoda = new PromeniStanjeProizvodaUsluge();
+					promeniStanjeProizvoda.izvrsiSO(proi);
+					
 					selectBlock1();
 					ajaxResponseRenderer.addRender("prikazProizvodaZone",prikazProizvodaZone);
 					
@@ -276,8 +310,33 @@ public class KreiranjeRacuna {
 				return artiklConfirm.getBody();
 			}
 	}
-	 
+	
 	 Object onActionFrompotvrdiZaArtikl(){
 		 return zoneStavke;
+	 }
+	
+	 Object onActionFromobrisiStavku(Integer idProizvodUsluga ) throws Exception{
+		//Integer idProizvodUsluga = 3;
+		 SelectProizvodUsluga proizvodUslugaSO = new SelectProizvodUsluga();
+		 ProizvodUsluga proizvodUslugaSelektuj = new ProizvodUsluga();
+		 proizvodUslugaSelektuj.setIdProizvodUsluga(idProizvodUsluga);
+		 
+		 ProizvodUsluga selektovaniPU = (ProizvodUsluga) proizvodUslugaSO.izvrsiSO(proizvodUslugaSelektuj);
+		 if(selektovaniPU instanceof Proizvod){
+			 Proizvod prSel =  (Proizvod) selektovaniPU;
+			
+			 PromeniStanjeProizvodaUsluge promeniStanjeProizvoda = new PromeniStanjeProizvodaUsluge();
+				
+			 StavkaRacuna stavkaZProizvod =  this.zaposleni.getCurrent().findStavkaRacuna(idProizvodUsluga);
+			 prSel.setKolicina(prSel.getKolicina() + stavkaZProizvod.getKolicina()+1);
+			 
+			 promeniStanjeProizvoda.izvrsiSO(prSel);
+			 
+			 this.zaposleni.getCurrent().removStavkaRacuna(idProizvodUsluga);
+		 }else{
+			 this.zaposleni.getCurrent().removStavkaRacuna(idProizvodUsluga);
+			 
+		 }
+		 return zoneStavke.getBody();
 	 }
 }

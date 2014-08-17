@@ -7,12 +7,15 @@ public class MenagePageNames {
 	private static ArrayList<PageNames> pageList = new ArrayList<PageNames>();
 	
 	public static void createPageNames(){
-		PageNames pn = new PageNames("Show all", "zaposleni/Show");
+		PageNames pn = new PageNames("Prikaz", "zaposleni/Show");
 		pageList.add(pn);
 		pn = new PageNames("Create", "zaposleni/Create");
 		pageList.add(pn);
 		pn = new PageNames("Pretraga", "poslovnipartner/pregledposlovnihpartnera");
 		pageList.add(pn);
+		pn = new PageNames("Profil","About");
+		pageList.add(pn);
+		
 	}
 	
 	public static String getPageLogicName(String pageMenuName){

@@ -43,6 +43,19 @@ public class Usluga extends ProizvodUsluga implements java.io.Serializable {
 		return "Usluga";
 	}
 
+	@Override
+	public Integer idColumnValue() {
+		return getIdProizvodUsluga();
+	}
+
+	@Override
+	public String idColumName() {
+		// TODO Auto-generated method stub
+		return super.idColumName();
+	}
+	
+	
+
 
 
 

@@ -115,7 +115,7 @@ public class Layout
     	if(user != null){
 	    	if(user.getTip() != null && user.getTip().equals(1)){
 	    		isLogedIn = true;
-	    		return new String[]{"About", "Contact","Show all", "Create", "PoslovniPartneri","Pretraga"};
+	    		return new String[]{"Profil", "Contact","Prikaz", "Create", "PoslovniPartneri","Pretraga"};
 	    	}else if(user.getTip() != null && user.getTip().equals(2)){
 	    		isLogedIn = true;
 	    		return new String[]{"Index", "About", "zaposleni/Show"};

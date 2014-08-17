@@ -1,40 +1,47 @@
-<html t:type="layout" title="Pregled poslovnih partnera"
+<html t:type="layout" title="Pretraga poslovnih partnera"
 	 xmlns:p="tapestry:parameter"
 	  xmlns:j="tapestry-library:jquery"
   xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
 
-     <div class="mainContainer">
-     Pretraga poslovnih partnera :
+     <div class="mainContainer" style="width:1000px; margin: 0 auto">
+    
+     <img src="${magniGlass}" alt="user" style="float:right; margin-right:400px; margin-top:50px;"></img>				 
+     Unesite kriterijume pretrage:
+     <br/>
+     <br/>
    		<t:form t:id="searchForm">  
-       		 <!--  <t:select t:id="equationType" model="'FizickoLice,PravnoLice'"   
-              	 value="prop:eqnType"  blankOption="never" zone="eqnZone"/> -->
+   		      <t:label for="poslovniPartner"/>
+       		  <t:select t:id="poslovniPartner" model="'FizickoLice,PravnoLice'"   
+              	 value="prop:poslovniPartner"  blankOption="never" zone="eqnZone"/> 
   			
   			
-  			<t:radiogroup value="fizikoLicaVisible">
+  			  <!--  <t:radiogroup value="fizikoLicaVisible">
 	            <t:radio t:id="pravnoLice" label="Pravno Lice" value="false" />
 	            <t:label for="pravnoLice">Pravno Lice</t:label>
 	            <t:radio t:id="fizickoLice" label="Fizicko lice"  value="true" t:mixins="triggerfragment"  fragment="fragmentFizickoLice"/>
 	            <t:label for="fizickoLice">Fizicko lice</t:label>
-        	 </t:radiogroup>
+        	 </t:radiogroup>-->
         	 <br/>
         	  <br/>
-  			 <t:formfragment t:id="fragmentFizickoLice" visible="fizikoLicaVisible">
-	             <div >
-	             
-	                
-					<t:label for="mesto"/>
-	                <t:select t:id="mesto" value="mesto" model="mesta"/>
-	            </div>
-          	</t:formfragment>
+        	  <t:zone t:id="eqnZone" style="width: 850px;"> 
+	  			 <div  style="visibility:${hiddenSign}">
+		             <div >
+		             
+		                
+						<t:label for="mesto"/>
+		                <t:select t:id="mesto" blankOption="never" value="mesto" model="mesta" zone="mestoZone"/>
+		            </div>
+	          	</div>
+          	</t:zone>
           	 <br/>
              <t:textfield t:value="searchPhrase" t:mixins="jquery/Autocomplete"/> <INPUT t:type="submit" t:id="submitButton" type="submit" value="Select" />
                
       </t:form>  
       <br/>
       <t:if t:test="showPGrid">
-	      <t:grid t:source="pPList" rowsPerPage="2" t:inPlace="true" row="ppValue" t:add="detals,action">
-		  	<p:detalsCell><t:actionLink t:id="showPPDetals" >detals</t:actionLink></p:detalsCell>
-		  	<p:actionCell><t:actionLink t:id="sellToPP" >sell</t:actionLink></p:actionCell>
+	      <t:grid t:source="pPList" rowsPerPage="2" t:inPlace="true" row="ppValue" remove="idPoslovnogPartnera" t:add="prodaj">
+		  	
+		  	<p:prodajCell><t:actionLink t:id="sellToPP" >racun</t:actionLink></p:prodajCell>
 		  		<p:empty>
 					<p class="empty-result">Prazno je</p>
 				</p:empty>
@@ -42,20 +49,17 @@
 		</t:if>
 	  
 	  <t:if t:test="showFGrid">
-		   <t:grid t:source="fzList" rowsPerPage="3" t:inPlace="true" row="fzValue" t:add="detals,action">
-		   
-		  	<p:detalsCell><t:actionLink t:id="showFZDetals">detals</t:actionLink></p:detalsCell>
-		  	<p:actionCell><t:actionLink t:id="sellToFZ">sell</t:actionLink></p:actionCell>
+		   <t:grid t:source="fzList" rowsPerPage="3" t:inPlace="true" row="fzValue" t:add="prodaj">
+		  	<p:prodajCell><t:actionLink t:id="sellToFZ">racun</t:actionLink></p:prodajCell>
 		  	<p:empty>
 					<p class="empty-result">Prazno je</p>
 				</p:empty>
 		  </t:grid>
 	  </t:if>
       <h1>${searchPhrase}</h1>
-      <t:zone t:id="eqnZone" style="float:left; width: 850px;">  
-     
-    </t:zone>  
+      
     </div>
- 
+    <t:zone t:id="mestoZone">
+    </t:zone> 
 
 </html>

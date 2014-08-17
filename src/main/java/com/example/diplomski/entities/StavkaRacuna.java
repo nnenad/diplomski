@@ -97,6 +97,12 @@ public class StavkaRacuna  implements java.io.Serializable, OpstiDomenskiObjekat
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	public Integer idColumnValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 
 

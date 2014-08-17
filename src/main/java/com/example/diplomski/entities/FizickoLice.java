@@ -75,6 +75,12 @@ public class FizickoLice extends PoslovniPartner implements java.io.Serializable
 	public String entityName() {
 		return "FizickoLice";
 	}
+
+	@Override
+	public String toString() {
+		return  ime + " "+ prezime;
+	}
+	
 	
 	
 }

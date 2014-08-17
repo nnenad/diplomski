@@ -56,6 +56,13 @@ public class PravnoLice extends PoslovniPartner implements java.io.Serializable 
 		return "PravnoLice";
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return naziv;
+	}
+
+	
     
 }
 

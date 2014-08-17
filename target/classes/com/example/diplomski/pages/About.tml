@@ -1,11 +1,33 @@
 <html t:type="layout" title="Pocetna strana"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
       xmlns:p="tapestry:parameter">
-
-    <p>Uspesno ste ulogovani ...</p>
-    
-    <p>Korisnik: </p>
-    
-    <h1>${myUser.ime}</h1>
+      
+     <div style="width:1000px; margin: 0 auto">
+		<div style="width:650px">
+		    <img src="layout/images/user.png" alt="user" style="float:right; margin-right:-50px"></img>
+	    	<p>Uspesno ste ulogovani ...</p>
+	    </div>
+	    <div style="width:700px">
+	    	
+		    <div style="width:300px">
+		    	<span>Ime : </span><h2 style="display:inline">${myUser.ime}</h2>
+		    </div>
+		    <br/>
+		    <div style="width: 300px">
+		    	<span>Prezime: </span> <h2 style="display:inline">${myUser.prezime}</h2>
+		    </div>
+		    
+	    </div>
+	    <div>
+	    	<h4>Izdati racuni:</h4>
+	    	<t:grid t:source="myUser.racuns"  remove="status, zaposleni, idRacuna, poslovniPartner" row="racun" rowsPerPage="5" t:add="naziv">
+	    		<p:nazivCell>
+				
+				${racun.poslovniPartner.toString()}
+				
+				</p:nazivCell>
+	    	</t:grid>
+	    </div>
+    </div>
 
 </html>

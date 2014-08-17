@@ -185,8 +185,8 @@ public class DbBroker {
 		}
 	}
 	
-	public OpstiDomenskiObjekat getEntityById(OpstiDomenskiObjekat odo, Integer id){
-		Criteria crit = session.createCriteria(odo.getClass()).add(Restrictions.eq("idProizvodUsluga", id));
+	public OpstiDomenskiObjekat getEntityById(OpstiDomenskiObjekat odo, String polje, Integer id){
+		Criteria crit = session.createCriteria(odo.getClass()).add(Restrictions.eq(polje, id));
 		if(crit.list().isEmpty()){
 			 
 			return null;
@@ -202,7 +202,7 @@ public class DbBroker {
 
 	public void smaniKolicinuProizvoda(Proizvod proi) {
 		proi.setKolicina(proi.getKolicina() - 1);
-		this.saveEntity(proi);
+		this.session.update(proi);
 	}
 
 	public List<FizickoLice> gettAllFizickoLiceByNameAndMesto(String searchPhrase, String mesto) {

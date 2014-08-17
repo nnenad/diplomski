@@ -53,6 +53,7 @@ public class Proizvod extends ProizvodUsluga  implements java.io.Serializable {
     public void setKolicina(Integer kolicina) {
         this.kolicina = kolicina;
     }
+ 
 }
 
 

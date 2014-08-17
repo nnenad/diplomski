@@ -74,6 +74,11 @@ public class TipProizvoda  implements java.io.Serializable,OpstiDomenskiObjekat 
 		return null;
 	}
 
+	public Integer idColumnValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 

@@ -82,7 +82,7 @@ public class Racun  implements java.io.Serializable,OpstiDomenskiObjekat {
     public void setZaposleni(Zaposleni zaposleni) {
         this.zaposleni = zaposleni;
     }
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="poslovni_partner", nullable=false)
     public PoslovniPartner getPoslovniPartner() {
         return this.poslovniPartner;
@@ -118,7 +118,7 @@ public class Racun  implements java.io.Serializable,OpstiDomenskiObjekat {
     public void setBrojRacuna(String brojRacuna) {
         this.brojRacuna = brojRacuna;
     }
-@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="racun")
+@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="racun")
     public Set<StavkaRacuna> getStavkaRacunas() {
         return this.stavkaRacunas;
     }
@@ -128,7 +128,7 @@ public class Racun  implements java.io.Serializable,OpstiDomenskiObjekat {
     }
 
     @Transient
-	public boolean isStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 	@Transient
@@ -163,7 +163,7 @@ public class Racun  implements java.io.Serializable,OpstiDomenskiObjekat {
     }
 	
 	@Transient
-	public double getUkupnaCena(){
+	public double ukupnaCena(){
 		Double ukupnaCena = new Double(0.0);
 		for(StavkaRacuna sr: stavkaRacunas){
 			Double cenaJedneStavke = sr.getProizvodUsluga().getCena() * sr.getKolicina();
@@ -181,6 +181,31 @@ public class Racun  implements java.io.Serializable,OpstiDomenskiObjekat {
 	public String idColumName() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	public Integer idColumnValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public StavkaRacuna findStavkaRacuna(Integer idProizvoda){
+		for(StavkaRacuna stavka: stavkaRacunas){
+			if(stavka.getProizvodUsluga().getIdProizvodUsluga() == idProizvoda){
+				return stavka;
+			}
+		}
+		
+		return null;
+	}
+	
+	public void removStavkaRacuna(Integer idProizvoda){
+		for(StavkaRacuna stavka: stavkaRacunas){
+			if(stavka.getProizvodUsluga().getIdProizvodUsluga() == idProizvoda){
+				stavkaRacunas.remove(stavka);
+				return;
+			}
+		}
 	}
 }
 

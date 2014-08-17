@@ -45,7 +45,7 @@
 			
 			
 			<div class="form-submit">
-				<input type="submit" value="Izdaj" /> or <a href="#" t:type="eventlink" t:event="cancelBooking">Cancel</a>
+				<input type="submit" value="Izdaj" /> ili <t:actionLink t:id="cancelRacun" >otkazi</t:actionLink>
 			</div>
 		</form>
 		<br/>
@@ -115,23 +115,23 @@
 	       
 	       	<tr t:type="loop" t:source="zaposleni.current.stavkaRacunas" t:value="tekucaStavka">
 	           
-					<td >
+					<td style="width:150px">
 						${tekucaStavka.proizvodUsluga.naziv}
 					</td>
-					<td >
+					<td style="width:50px">
 						${tekucaStavka.kolicina}
 					</td>
-					<td>
+					<td style="width:100px">
 						${tekucaStavka.cena}
 					</td>
 					<td >
-						<t:actionLink t:id="ukloniStavku" context="tekucaStavka.idStavkeRacuna" >ukloni</t:actionLink>
+						<t:actionLink t:id="obrisiStavku" context="tekucaStavka.proizvodUsluga.idProizvodUsluga" zone="zoneStavke">Ukloni</t:actionLink>
 					</td>
 			</tr>
 				<tr>
 			    	<th colspan="3">Ukupno</th>
 			    	
-			    	<th>${zaposleni.current.ukupnaCena}</th>
+			    	<th>${zaposleni.current.ukupnaCena()}</th>
 		  	</tr>
 	        </table>
   

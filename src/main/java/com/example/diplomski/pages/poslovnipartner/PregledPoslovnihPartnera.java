@@ -3,12 +3,14 @@ package com.example.diplomski.pages.poslovnipartner;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tapestry5.Asset;
 import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.annotations.Events;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.InjectPage;
 import org.apache.tapestry5.annotations.OnEvent;
+import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.RequestParameter;
@@ -35,25 +37,19 @@ public class PregledPoslovnihPartnera {
 
 	@SessionState
 	private Zaposleni zaposleni;
+	
 	@InjectPage
 	private KreiranjeRacuna kreiranjeRacuna;
 	
 	private String searchPhrase ;
 	
-	@Property
-	private String selectedEqn;
-	
 	@Persist
-	@Property
-	private String nesto;
+	 private String poslovniPartner; 
 	
-	@Persist
-	 private String eqnType; 
-	
-	@Persist
+	@Persist(PersistenceConstants.FLASH)
 	private List<PravnoLice> pPList;
 	
-	@Persist
+	@Persist(PersistenceConstants.FLASH)
 	private List<FizickoLice> fzList;
 
 	@Persist
@@ -62,13 +58,41 @@ public class PregledPoslovnihPartnera {
 	@Persist
 	private FizickoLice fzValue;
 	
+	@SuppressWarnings("unused")
+	@Inject  
+    @Path("context:layout/images/magniGlass.jpg")  
+    private Asset magniGlass;  
+	
 	private List<String> autocompleteList;
 	
 	private List<String> fizickaLicaAutocomplete;
 	
 	private List<String> pravnaLicaAutocomplete;
 	
-	 @Persist            
+	@Persist(PersistenceConstants.FLASH)
+	private String hiddenSign;
+	
+	
+	 public String getHiddenSign() {
+		 if(poslovniPartner.equals("FizickoLice")){
+			 return "none";
+		 }else{
+			 return "hidden";
+		 }
+		
+	}
+	public void setHiddenSign(String hiddenSign) {
+		this.hiddenSign = hiddenSign;
+	}
+	public Asset getMagniGlass() {
+		return magniGlass;
+	}
+	public void setMagniGlass(Asset magniGlass) {
+		this.magniGlass = magniGlass;
+	}
+
+
+	@Persist            
 	 @Property  
 	 private boolean fizikoLicaVisible; 
 	 
@@ -79,15 +103,18 @@ public class PregledPoslovnihPartnera {
     @InjectComponent  
     private Zone eqnZone; 
     
+    @InjectComponent
+    private Zone mestoZone;
     
-	public String getEqnType() {
-		if(eqnType == null){
-			eqnType = "FizickoLice";
+    
+	public String getPoslovniPartner() {
+		if(poslovniPartner == null){
+			poslovniPartner = "PravnoLice";
 		}
-		return eqnType;
+		return poslovniPartner;
 	}
-	public void setEqnType(String eqnType) {
-		this.eqnType = eqnType;
+	public void setPoslovniPartner(String eqnType) {
+		this.poslovniPartner = eqnType;
 	}
 	public List<String> getAutocompleteList() {
 		return autocompleteList;
@@ -151,13 +178,14 @@ public class PregledPoslovnihPartnera {
 		this.ppValue = ppValue;
 	}
 	
+	
 	@SuppressWarnings("unchecked")
 	@OnEvent(value = "provideCompletions")
     public List<String> autoComplete(String start) throws Exception
     {
         List<String> strings = new ArrayList<String>();
         
-        if(fizikoLicaVisible){
+        if(poslovniPartner.equals("FizickoLice")){
         	if(mesto != null && !mesto.equals("sva")){
         		AutocompleteFizickoLicePrezimeMesto atocompletePrezimeMesto = new AutocompleteFizickoLicePrezimeMesto();
         		FizickoLice fizickoLIcePretragaMesto = new FizickoLice();
@@ -198,7 +226,7 @@ public class PregledPoslovnihPartnera {
 	@OnEvent(value="submit", component="searchForm")
 	void onSearchSubmit() throws Exception{
 		
-		if(fizikoLicaVisible){
+		if(poslovniPartner.equals("FizickoLice")){
 			PretragaFizickihLica pretragaFL = new PretragaFizickihLica();
 			FizickoLice fizickoLiceZaPretragu = new FizickoLice();
 			
@@ -220,19 +248,25 @@ public class PregledPoslovnihPartnera {
 		
 	}
 	
-//	 public Object onValueChangedFromEquationType(String eqnType) {  
-//		 this.selectedEqn = eqnType;
-//		 if(eqnType.equals("FizickoLice")){
-//			 autocompleteList = fizickaLicaAutocomplete;
-//		 }else{
-//			 autocompleteList = pravnaLicaAutocomplete;
-//		 }
-//		 
-//		 return null;
-	// }  
+	 public Object onValueChangedFromPoslovniPartner(String poslPart) {  
+		 if(poslPart.equals("FizickoLice")){
+			 setHiddenSign("none");
+			 autocompleteList = fizickaLicaAutocomplete;
+		 }else{
+			 setHiddenSign("hidden");
+			 autocompleteList = pravnaLicaAutocomplete;
+		 }
+		 
+		 return eqnZone.getBody();
+	 }  
+	 
+	 public Object onValueChangedFromMesto(String mesto) {  
+		 this.mesto = mesto;
+		 return null;
+	 }  
 	
 	 public boolean getShowPGrid(){
-		 if(!fizikoLicaVisible){
+		 if(!poslovniPartner.equals("FizickoLice")){
 			 return true;
 		 }else {
 			 return false;
@@ -240,19 +274,13 @@ public class PregledPoslovnihPartnera {
 	 }
 	 
 	 public boolean getShowFGrid(){
-		 if(fizikoLicaVisible){
+		 if(poslovniPartner.equals("FizickoLice")){
 			 return true;
 		 }else {
 			 return false;
 		 }
 	 }
-	@OnEvent(component="showPPDetals")
-	Object showPPValue(String ime){
-		//about.setPoslovniPartner(ppValue);
-		return null;
-	}
-	
-	
+
 	Object onActionFromSellToFZ() throws Exception{
 		zaposleni.startCratingRacun(fzValue);
 		KreirajRacun kreirajRacun = new KreirajRacun();

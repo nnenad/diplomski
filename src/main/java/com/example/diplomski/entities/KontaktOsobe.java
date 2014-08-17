@@ -112,6 +112,12 @@ public class KontaktOsobe  implements java.io.Serializable,OpstiDomenskiObjekat 
 	}
 
 
+	public Integer idColumnValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 
 

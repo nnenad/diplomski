@@ -99,6 +99,11 @@ public class PoslovniPartner  implements java.io.Serializable, OpstiDomenskiObje
 		return null;
 	}
 
+	public Integer idColumnValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 

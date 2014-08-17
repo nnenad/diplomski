@@ -88,6 +88,11 @@ public class ProizvodUsluga  implements java.io.Serializable, OpstiDomenskiObjek
 
 	public String idColumName() {
 		// TODO Auto-generated method stub
+		return  "idProizvodUsluga";
+	}
+
+	public Integer idColumnValue() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

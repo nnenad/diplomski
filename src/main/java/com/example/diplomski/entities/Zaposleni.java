@@ -125,7 +125,7 @@ public class Zaposleni implements java.io.Serializable, OpstiDomenskiObjekat {
 		this.tip = tip;
 	}
 	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="zaposleni")
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="zaposleni")
     public Set<Racun> getRacuns() {
         return this.racuns;
     }
@@ -139,6 +139,11 @@ public class Zaposleni implements java.io.Serializable, OpstiDomenskiObjekat {
 	}
 
 	public String idColumName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Integer idColumnValue() {
 		// TODO Auto-generated method stub
 		return null;
 	}
