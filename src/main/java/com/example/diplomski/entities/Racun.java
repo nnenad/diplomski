@@ -157,9 +157,9 @@ public class Racun  implements java.io.Serializable,OpstiDomenskiObjekat {
                 0,
                 0,
                 0);
-        setDatumIzdavanja(refDate.getTime());
-        refDate.add(Calendar.DAY_OF_MONTH, nights);
         setDatumKreiranja(refDate.getTime());
+        refDate.add(Calendar.DAY_OF_MONTH, nights);
+        setDatumIzdavanja(refDate.getTime());
     }
 	
 	@Transient

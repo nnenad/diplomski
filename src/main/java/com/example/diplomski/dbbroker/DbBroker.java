@@ -147,11 +147,13 @@ public class DbBroker {
 		return crit.list();
 	}
 	
-	public void saveEntity(Object obj){
+	public Object saveEntity(Object obj){
 		
-		 session.persist(obj);
+		 session.saveOrUpdate(obj);
 	      
 	      session.refresh(obj);
+	      
+	      return obj;
 	}
 
 	public List<FizickoLice> gettAllFizickoLiceByName(String searchPhrase) {
@@ -214,5 +216,10 @@ public class DbBroker {
 			 
 			return crit.list();
 		}
+	}
+
+	public boolean doesZaposleniExists(Zaposleni odo) {
+		Criteria crit = session.createCriteria(Zaposleni.class).add(Restrictions.ilike("korisnickoIme", odo.getKorisnickoIme()));
+			return	crit.list().isEmpty();
 	}
 }

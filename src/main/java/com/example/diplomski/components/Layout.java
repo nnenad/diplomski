@@ -115,10 +115,10 @@ public class Layout
     	if(user != null){
 	    	if(user.getTip() != null && user.getTip().equals(1)){
 	    		isLogedIn = true;
-	    		return new String[]{"Profil", "Contact","Prikaz", "Create", "PoslovniPartneri","Pretraga"};
+	    		return new String[]{"Profil","Prikaz", "Novi zaposleni", "PoslovniPartneri","Pretraga"};
 	    	}else if(user.getTip() != null && user.getTip().equals(2)){
 	    		isLogedIn = true;
-	    		return new String[]{"Index", "About", "zaposleni/Show"};
+	    		return new String[]{"Profil", "Pretraga"};
 	    	}else{
 	    		isLogedIn = false;
 	    		return new String[]{"Index"};

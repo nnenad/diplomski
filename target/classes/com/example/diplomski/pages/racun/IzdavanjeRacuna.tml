@@ -2,12 +2,86 @@
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
       xmlns:j="tapestry-library:jquery"
       xmlns:p="tapestry:parameter">
-
-	${racun.brojRacuna}
+      
+      <img src="${asset:context:layout/images/kasa.jpg}" alt="kasa" style="float:right; margin-right:200px; margin-top:50px " ></img>
+<div style="margin-left: 50px;">
+    <br></br>
+    <br></br>
+	<form class="full-form" t:type="form" t:id="racunForm" t:validate="racun" >
+	<table style="width:550px">
+				<tr>
+					<th>
+						<label t:type="label" t:for="createDate">Datum kreiranja</label>
+					</th>
+					<td style="padding-left:32px">
+						<input t:type="datefield" t:id="createDate" t:value="racun.datumKreiranja" t:disabled="true"/>
+					</td>	
+				</tr>
+				<tr>
+					<th>
+						<label t:type="label" t:for="outgoingDate">Datum dospeca</label>
+					</th>
+					<td style="padding-left:32px">
+						<input t:type="datefield" t:id="outgoingDate" t:value="racun.datumIzdavanja" t:disabled="true"/>
+					</td>	
+				</tr>
+				<tr>
+					<th>
+						<label t:type="label" t:for="racunNumber" t:disabled="true">Broj racuna</label>
+					</th>
+					<td>
+						<input t:type="textfield" t:disabled="true" t:id="racunNumber" t:value="racun.brojRacuna" >
+						</input>
+					</td>	
+				</tr>
+				<tr>
+					<th>
+						<label t:type="label" t:for="poslovniPartner" t:disabled="true">Poslovni partner</label>
+					</th>
+					<td>
+						<input t:type="textfield" t:disabled="true" t:id="poslovniPartner" t:value="racun.poslovniPartner.toString()" >
+						</input>
+					</td>	
+				</tr>
+								
+			</table>
+			</form>
 	<br/>
-	 <a t:type="actionlink" t:id="potvrdiRacun" t:mixins="jquery/Confirm">Izdaj racun</a>
-   
-     <t:actionLink t:id="otkaziRacun">
+	<b>Stavke racuna:</b>
+	<table>
+	       <tr>
+		    	<th>Naziv</th>
+		    	<th>Kolicina</th>
+		    	<th>Cena</th>
+		    	<th></th>
+		  	</tr>
+	       
+	       	<tr t:type="loop" t:source="racun.stavkaRacunas" t:value="tekucaStavka">
+	           
+					<td style="width:150px">
+						${tekucaStavka.proizvodUsluga.naziv}
+					</td>
+					<td style="width:50px">
+						${tekucaStavka.kolicina}
+					</td>
+					<td style="width:100px">
+						${tekucaStavka.cena}
+					</td>
+					
+			</tr>
+				<tr>
+			    	<th colspan="2">Ukupno</th>
+			    	
+			    	<th style="align:right">${racun.ukupnaCena()}</th>
+		  	</tr>
+	        </table>
+	<br/>
+	
+	
+     <t:eventlink class="button" t:id="potvrdiRacun"  t:event="action" t:message="Zelite da izdate racun?" t:cancelMsg="otkazi" t:validationMsg="izdaj" t:title="Potvrdite izdavanje racuna" t:mixins="jquery/Confirm">Izdaj racun</t:eventlink>
+     
+     <t:actionLink style="color:red; margin-left: 15px" t:id="otkaziRacun">
     	Otkazi racun
     </t:actionLink>
+    </div>
 </html>

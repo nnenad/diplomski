@@ -9,7 +9,7 @@ public class MenagePageNames {
 	public static void createPageNames(){
 		PageNames pn = new PageNames("Prikaz", "zaposleni/Show");
 		pageList.add(pn);
-		pn = new PageNames("Create", "zaposleni/Create");
+		pn = new PageNames("Novi zaposleni", "zaposleni/Create");
 		pageList.add(pn);
 		pn = new PageNames("Pretraga", "poslovnipartner/pregledposlovnihpartnera");
 		pageList.add(pn);

@@ -12,7 +12,7 @@
 <!--   	</p:else> -->
 <!--   </t:if> -->
   
-		<form class="full-form" t:type="form" t:id="racunForm" t:validate="racun" >
+		<form class="full-form" t:type="form" t:id="racunForm" t:validate="zaposleni.current" >
 			<t:errors />
 			<table>
 				<tr>
@@ -20,7 +20,7 @@
 						<label t:type="label" t:for="createDate">Datum kreiranja</label>
 					</th>
 					<td>
-						<input t:type="datefield" t:id="createDate" t:value="racun.datumKreiranja"/>
+						<input t:type="datefield" t:disabled="true" t:id="createDate" t:value="zaposleni.current.datumKreiranja"/>
 					</td>	
 				</tr>
 				<tr>
@@ -28,7 +28,7 @@
 						<label t:type="label" t:for="outgoingDate">Datum dospeca</label>
 					</th>
 					<td>
-						<input t:type="datefield" t:id="outgoingDate" t:value="racun.datumIzdavanja"/>
+						<input t:type="datefield" t:id="outgoingDate" t:value="zaposleni.current.datumIzdavanja"/>
 					</td>	
 				</tr>
 				<tr>
@@ -36,7 +36,7 @@
 						<label t:type="label" t:for="racunNumber">Broj racuna</label>
 					</th>
 					<td>
-						<input t:type="textfield" style="disabled:true" t:id="racunNumber" t:value="racun.brojRacuna" >
+						<input t:type="textfield"  t:disabled="true"  t:id="racunNumber" t:value="zaposleni.current.brojRacuna" >
 						</input>
 					</td>	
 				</tr>

@@ -214,14 +214,9 @@ public class KreiranjeRacuna {
 	    {
 	        Calendar calendar = Calendar.getInstance();
 	        calendar.add(Calendar.DAY_OF_MONTH, -1);
-	        if (racun.getDatumKreiranja().before(calendar.getTime()))
+	        if (!zaposleni.getCurrent().getDatumKreiranja().before(zaposleni.getCurrent().getDatumIzdavanja()))
 	        {
-	        	racunForm.recordError("before date");
-	            return;
-	        }
-	        else if (!racun.getDatumKreiranja().before(racun.getDatumIzdavanja()))
-	        {
-	        	racunForm.recordError("wrong date");
+	        	racunForm.recordError("Datum dospeca mora biti nakon daruma kreiranja");
 	            return;
 	        }
 	    }
