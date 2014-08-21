@@ -81,7 +81,7 @@ public class PoslovniPartner  implements java.io.Serializable, OpstiDomenskiObje
         this.kontaktOsobes = kontaktOsobes;
     }
 
-@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="poslovniPartner")
+@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="poslovniPartner")
     public Set<Racun> getRacuns() {
         return this.racuns;
     }

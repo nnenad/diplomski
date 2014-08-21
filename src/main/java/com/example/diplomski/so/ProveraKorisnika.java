@@ -3,7 +3,7 @@ package com.example.diplomski.so;
 import com.example.diplomski.dbbroker.DbBroker;
 import com.example.diplomski.entities.Zaposleni;
 
-public class AutentikacijaKorisnika extends OpstaSO {
+public class ProveraKorisnika extends OpstaSO {
 
 	@Override
 	protected void proveriPreduslov(Object odo) throws Exception {

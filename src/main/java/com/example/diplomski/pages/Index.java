@@ -16,7 +16,7 @@ import org.apache.tapestry5.alerts.AlertManager;
 import com.example.diplomski.celebrity.model.User;
 import com.example.diplomski.dbbroker.DbBroker;
 import com.example.diplomski.entities.Zaposleni;
-import com.example.diplomski.so.AutentikacijaKorisnika;
+import com.example.diplomski.so.ProveraKorisnika;
 import com.google.common.collect.Sets.SetView;
 
 /**
@@ -83,7 +83,7 @@ public class Index {
 	Object onSubmitFromLoginForm() throws Exception {
 		Class nextPage = null;
 		Zaposleni authenticatedUser = null;
-		AutentikacijaKorisnika ak = new AutentikacijaKorisnika();
+		ProveraKorisnika ak = new ProveraKorisnika();
 		Zaposleni zaposleniZaAutentikaciju = new Zaposleni();
 		zaposleniZaAutentikaciju.setKorisnickoIme(userName);
 		zaposleniZaAutentikaciju.setSifra(password);

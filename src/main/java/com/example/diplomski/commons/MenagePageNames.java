@@ -7,7 +7,7 @@ public class MenagePageNames {
 	private static ArrayList<PageNames> pageList = new ArrayList<PageNames>();
 	
 	public static void createPageNames(){
-		PageNames pn = new PageNames("Prikaz", "zaposleni/Show");
+		PageNames pn = new PageNames("Prikaz racuna", "zaposleni/Show");
 		pageList.add(pn);
 		pn = new PageNames("Novi zaposleni", "zaposleni/Create");
 		pageList.add(pn);

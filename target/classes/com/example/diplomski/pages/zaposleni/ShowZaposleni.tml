@@ -1,25 +1,36 @@
-<html t:type="layout" title="Prikazi Zaposlene"
+<html t:type="layout" title="Pretraga racuna"
 	 xmlns:p="tapestry:parameter"
         xmlns:j="tapestry-library:jquery"
   xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
  >
 
-     <t:grid source="zaposleniSource"  
-           rowsPerPage="5" row="zaposleni" >
-           <p:prezimeCell>
-           	<t:pageLink t:page="about" t:context="zaposleni.idZaposlenog">
-           		${zaposleni.prezime}
-           	</t:pageLink>
-           </p:prezimeCell>
-            <p:deleteCell>
-           	<t:pageLink t:page="about" t:context="zaposleni.idZaposlenog">
-           		delete
-           	</t:pageLink>
-           </p:deleteCell>
-       
-      
-	</t:grid>
+     <t:form t:id="searchForm">  
+   		      <t:label for="poslovniPartner">Tip poslovnog partnera</t:label>
+       		  <t:select t:id="poslovniPartner" model="'FizickoLice,PravnoLice'"   
+              	 value="prop:poslovniPartner"  blankOption="never" zone="eqnZone"/> 
+  			
+        	 <br/>
+        	  <br/>
+        	  <t:zone t:id="eqnZone" style="width: 850px;"> 
+	  			 <div >
+		             <div >
+		             <t:label for="poslovniPartnerLista">Naziv poslovnog partnera</t:label>
+		                	<t:select t:id="poslovniPartnerLista" encoder="valueEncoder" blankOption="never" value="poslovniParnerLista" model="poslovniPartneri" zone="prikazRacuna"/>
+		            </div>
+	          	</div>
+          	</t:zone>
+          	
+               
+      </t:form> 
    
 	
-
+ 		<t:zone t:id="prikazRacuna" style="width: 850px;"> 
+	  		<t:grid t:source="selektovaniPoslovniPartner.racuns"  remove="status, zaposleni, idRacuna, poslovniPartner" row="racun" rowsPerPage="5" t:add="naziv">
+	    		<p:nazivCell>
+				
+				${selektovaniPoslovniPartner.toString()}
+				
+				</p:nazivCell>
+	    	</t:grid>	
+        </t:zone>
 </html>
