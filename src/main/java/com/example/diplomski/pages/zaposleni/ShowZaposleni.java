@@ -26,8 +26,10 @@ import com.example.diplomski.entities.Zaposleni;
 import com.example.diplomski.pages.Index;
 import com.example.diplomski.pomocne_operacije.AutocompleteFilickaLicaPrezime;
 import com.example.diplomski.pomocne_operacije.AutocompletePravnaLicaNaziv;
+import com.example.diplomski.pomocne_operacije.DajSvaFizickaLica;
 import com.example.diplomski.pomocne_operacije.GetAllEntities;
 import com.example.diplomski.pomocne_operacije.GetAllZaposleniMesta;
+import com.example.diplomski.so.PronadjiRacun;
 import com.example.diplomski.util.ZaposleniSource;
 
 public class ShowZaposleni{
@@ -41,9 +43,9 @@ public class ShowZaposleni{
 	@Property 
 	private boolean showFizickoLIce;
 	
-	private List<PravnoLice> listaPravnihLica;
+	private List<PravnoLice> listaPravnihLica = new ArrayList<PravnoLice>();
 	
-	private List<FizickoLice> listaFizickihLica;
+	private List<FizickoLice> listaFizickihLica = new ArrayList<FizickoLice>();;
 	
 	private String hiddenSign;
 	
@@ -61,6 +63,8 @@ public class ShowZaposleni{
 	@Property
 	private Racun racun;
 	
+	@Property
+	private List<Racun> listaRacunaZaPArtnera;
 	
 	public PoslovniPartner getSelektovaniPoslovniPartner() {
 		if(selektovaniPoslovniPartner == null){
@@ -105,7 +109,6 @@ public class ShowZaposleni{
 		
 		listaPravnihLica = (List<PravnoLice>) dajSveEntitete.izvrsiSO(new PravnoLice());
 		
-		
 		listaFizickihLica = (List<FizickoLice>) dajSveEntitete.izvrsiSO(new FizickoLice());
 	}
 	
@@ -143,11 +146,13 @@ public class ShowZaposleni{
 		 return eqnZone.getBody();
 	 }  
 	 
-	 Object onValueChangedFromposlovniPartnerLista(Integer poslPart){
+	 Object onValueChangedFromposlovniPartnerLista(Integer poslPart) throws Exception{
 		 if(showFizickoLIce){
 				for(FizickoLice fl: listaFizickihLica){
 					if(fl.getIdPoslovnogPartnera().equals(poslPart)){
 						selektovaniPoslovniPartner = fl;
+						PronadjiRacun pronadjiRacun = new PronadjiRacun();
+						listaRacunaZaPArtnera = (List<Racun>) pronadjiRacun.izvrsiSO(fl);
 						break;
 					}
 				}
@@ -155,6 +160,8 @@ public class ShowZaposleni{
 				for(PravnoLice pl: listaPravnihLica){
 					if(pl.getIdPoslovnogPartnera().equals(poslPart)){
 						selektovaniPoslovniPartner = pl;
+						PronadjiRacun pronadjiRacun = new PronadjiRacun();
+						listaRacunaZaPArtnera = (List<Racun>) pronadjiRacun.izvrsiSO(pl);
 						break;
 					}
 				}

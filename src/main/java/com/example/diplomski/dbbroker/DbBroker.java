@@ -18,6 +18,7 @@ import com.example.diplomski.entities.PoslovniPartner;
 import com.example.diplomski.entities.PravnoLice;
 import com.example.diplomski.entities.Proizvod;
 import com.example.diplomski.entities.ProizvodUsluga;
+import com.example.diplomski.entities.Racun;
 import com.example.diplomski.entities.TipProizvoda;
 import com.example.diplomski.entities.Usluga;
 import com.example.diplomski.entities.Zaposleni;
@@ -168,7 +169,11 @@ public class DbBroker {
 		return crit.list();
 	}
 	
-	
+	public List<FizickoLice> gettAllFizickaLica(){
+		Criteria crit = session.createCriteria(new FizickoLice().getClass());
+		 
+		return crit.list();
+	}
 	
 	public List<String> getAllMestaFilickoLice(){
 		Criteria crit = session.createCriteria(FizickoLice.class).setProjection(Projections.distinct(Projections.property("mesto")));
@@ -221,5 +226,10 @@ public class DbBroker {
 	public boolean doesZaposleniExists(Zaposleni odo) {
 		Criteria crit = session.createCriteria(Zaposleni.class).add(Restrictions.ilike("korisnickoIme", odo.getKorisnickoIme()));
 			return	crit.list().isEmpty();
+	}
+
+	public List<Racun> pronadjiRacun(PoslovniPartner pp) {
+		Criteria crit = session.createCriteria(Racun.class).add(Restrictions.eq("poslovniPartner.idPoslovnogPartnera", pp.getIdPoslovnogPartnera()));
+		return	crit.list();
 	}
 }

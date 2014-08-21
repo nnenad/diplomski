@@ -8,6 +8,8 @@
   <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/diplomski</property>
   <property name="hibernate.connection.username">root</property>
   <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+   <property name="show_sql">true</property>
+<property name="format_sql">true</property>
   <mapping package="com.example.diplomski.entities"/>
   
   <mapping class="com.example.diplomski.entities.FizickoLice"/>
@@ -23,4 +25,6 @@
   <mapping class="com.example.diplomski.entities.Zaposleni"/>
   
  </session-factory>
+ 
+
 </hibernate-configuration>
