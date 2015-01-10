@@ -104,7 +104,7 @@ public class PoslovniPartner  implements java.io.Serializable, OpstiDomenskiObje
 		return null;
 	}
 
-
+   
 
 
 }

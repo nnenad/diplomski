@@ -14,6 +14,9 @@ public class MenagePageNames {
 		pn = new PageNames("Pretraga", "poslovnipartner/pregledposlovnihpartnera");
 		pageList.add(pn);
 		pn = new PageNames("Profil","About");
+		
+		pageList.add(pn);
+		pn = new PageNames("obrada zaposlenih","zaposleni/obradazaposlenih");
 		pageList.add(pn);
 		
 	}

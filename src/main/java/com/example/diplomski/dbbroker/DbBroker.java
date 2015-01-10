@@ -232,4 +232,22 @@ public class DbBroker {
 		Criteria crit = session.createCriteria(Racun.class).add(Restrictions.eq("poslovniPartner.idPoslovnogPartnera", pp.getIdPoslovnogPartnera()));
 		return	crit.list();
 	}
+
+	public List<Zaposleni> pronadjiKorisnika(Zaposleni z) {
+		Criteria crit = session.createCriteria(Zaposleni.class).add(Restrictions.like("prezime", "%"+z.getPrezime()+"%"));
+		return	crit.list();
+		
+	}
+
+	public Zaposleni obrisiZapolenog(Zaposleni zaposleni) {
+		Criteria crit = session.createCriteria(Zaposleni.class).add(Restrictions.eq("idZaposlenog", zaposleni.getIdZaposlenog()));
+		if(crit.list().isEmpty()){
+			return zaposleni;
+		}else{
+			Zaposleni zap = (Zaposleni) crit.list().get(0);
+			session.delete(crit.list().get(0));
+			return zap;
+		}
+		
+	}
 }

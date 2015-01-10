@@ -1,0 +1,38 @@
+<html t:type="layout" title="Obrada zaposlenih"
+  xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+  xmlns:p="tapestry:parameter">
+
+	 <t:form t:id="searchForm" zone="prikazZaposlenih">  
+   		      <t:label for="prezime">Prezime:</t:label>
+       		  <t:textField t:id="prezime" t:value="prezime"  /> 
+  			
+        	 <br/>
+        	  <br/>
+        	  <input type="submit" value="Pretrazi" />
+      </t:form> 
+      <br/>
+      <br/>
+      <t:zone t:id="prikazZaposlenih" style="width: 850px;"> 
+	  		<t:grid t:source="listaZaposlenih"  remove="" row="zaposleni" rowsPerPage="5" t:add="obrisi, izmeni">
+	    		
+	    		<p:izmeniCell>
+					<t:actionLink t:id="izmeniZap" context="zaposleni.idZaposlenog" zone="poruka">izmeni</t:actionLink>
+				</p:izmeniCell>
+	    		
+	    		<p:obrisiCell>
+				
+					<t:actionLink t:id="obrisiZap" context="zaposleni.idZaposlenog"  zone="poruka">obrisi</t:actionLink>
+				
+				</p:obrisiCell>
+				
+				<p:empty>
+					<p class="empty-result">Nema zapoelenih za zadati kriterijum</p>
+				</p:empty>
+				
+	    	</t:grid>	
+        </t:zone>
+        <br/>
+        <t:zone t:id="poruka">
+        	<h3 style="color:${messageColor}">${messageText}</h3>
+        </t:zone>
+</html>

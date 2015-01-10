@@ -27,12 +27,17 @@
 	<br></br>
 	
  		<t:zone t:id="prikazRacuna" style="width: 850px;"> 
-	  		<t:grid t:source="listaRacunaZaPArtnera"  remove="status, zaposleni, idRacuna, poslovniPartner" row="racun" rowsPerPage="5" t:add="naziv">
+	  		<t:grid t:source="listaRacunaZaPArtnera"  remove="status, zaposleni, idRacuna, poslovniPartner" row="racun" rowsPerPage="5" t:add="naziv, obrisi">
 	    		<p:nazivCell>
 				
 				${selektovaniPoslovniPartner.toString()}
 				
 				</p:nazivCell>
+				<p:obrisiCell>
+				
+				<t:actionLink t:id="obrisiZap" >obrisi</t:actionLink>
+				
+				</p:obrisiCell>
 				<p:empty>
 					<p class="empty-result">Nema racuna za zadati kriterijum</p>
 				</p:empty>

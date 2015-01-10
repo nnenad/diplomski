@@ -8,6 +8,7 @@ import org.apache.tapestry5.SelectModel;
 import org.apache.tapestry5.ValueEncoder;
 import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.InjectPage;
+import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SessionState;
 import org.apache.tapestry5.corelib.components.Zone;
@@ -63,6 +64,7 @@ public class ShowZaposleni{
 	@Property
 	private Racun racun;
 	
+	@Persist
 	@Property
 	private List<Racun> listaRacunaZaPArtnera;
 	
@@ -147,6 +149,7 @@ public class ShowZaposleni{
 	 }  
 	 
 	 Object onValueChangedFromposlovniPartnerLista(Integer poslPart) throws Exception{
+		 listaRacunaZaPArtnera = new ArrayList<Racun>();
 		 if(showFizickoLIce){
 				for(FizickoLice fl: listaFizickihLica){
 					if(fl.getIdPoslovnogPartnera().equals(poslPart)){
